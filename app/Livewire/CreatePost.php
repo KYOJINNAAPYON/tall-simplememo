@@ -16,7 +16,6 @@ class CreatePost extends Component
     }
 
     protected $rules = [
-        'title' => ['required'],
         'content' => ['required'],
     ];
 
@@ -26,7 +25,6 @@ class CreatePost extends Component
 
         Post::create($data);
 
-        $this->title = '';
         $this->content = '';
     }
 }
