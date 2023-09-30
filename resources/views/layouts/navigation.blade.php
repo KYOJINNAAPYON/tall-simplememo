@@ -4,16 +4,16 @@
         <div class="flex justify-between h-16">
             <div class="flex">
                 <!-- Logo -->
-                <div class="shrink-0 flex items-center">
-                    <a href="{{ route('posts') }}">
-                        <x-application-logo class="block h-9 w-auto fill-current text-gray-800" />
+                <div class="flex-shrink-0 flex items-center">
+                    <a href="{{ route('posting') }}">
+                        <x-application-logo class="block h-9 w-auto fill-current text-gray-600" />
                     </a>
                 </div>
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                        {{ __('Dashboard') }}
+                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('posting')">
+                        {{ __('Simple Memo') }}
                     </x-nav-link>
                 </div>
             </div>
@@ -23,7 +23,7 @@
                 @auth
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
-                        <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
+                        <button class="flex items-center text-sm font-medium text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out">
                             <div>{{ Auth::user()->name }}</div>
 
                             <div class="ml-1">
@@ -43,7 +43,7 @@
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
 
-                            <x-dropdown-link :href="route('logout')"
+                            <x-dropdown-link :href="route('logout')" 
                                     onclick="event.preventDefault();
                                                 this.closest('form').submit();">
                                 {{ __('Log Out') }}
@@ -55,7 +55,7 @@
 
                 @guest
                     <div class="flex gap-x-4">
-                        <a href="{{ route('login') }}">{{ __('Log in') }}</a>
+                        <a href="{{ route('login') }}">{{ __('Login') }}</a>
                         <a href="{{ route('register') }}">{{ __('Register') }}</a>
                     </div>
                 @endguest
@@ -83,7 +83,7 @@
             @endauth
             @guest
             <x-responsive-nav-link :href="route('login')" :active="request()->routeIs('login')">
-                {{ __('Log in') }}
+                {{ __('Login') }}
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('register')" :active="request()->routeIs('register')">
                 {{ __('Register') }}
@@ -93,25 +93,14 @@
 
         <!-- Responsive Settings Options -->
         @auth
-        <div class="pt-4 pb-1 border-t border-gray-200">
-            <div class="px-4">
-                <div class="font-medium text-base text-gray-800">{{ Auth::user()->name }}</div>
-                <div class="font-medium text-sm text-gray-500">{{ Auth::user()->email }}</div>
-            </div>
-
-            <div class="mt-3 space-y-1">
-                <x-responsive-nav-link :href="route('profile.edit')">
-                    {{ __('Profile') }}
-                </x-responsive-nav-link>
-
-                <!-- Authentication -->
+        <div class="pb-1 border-t border-gray-200">
+            <div class="mt-2 space-y-1">
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
-
-                    <x-responsive-nav-link :href="route('logout')"
+                    <x-responsive-nav-link :href="route('logout')" 
                             onclick="event.preventDefault();
                                         this.closest('form').submit();">
-                        {{ __('Log Out') }}
+                        {{ __('Log out') }}
                     </x-responsive-nav-link>
                 </form>
             </div>

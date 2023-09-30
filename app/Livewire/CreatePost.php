@@ -7,24 +7,27 @@ use App\Models\Post;
 
 class CreatePost extends Component
 {
-    public $title;
-    public $content;
+    public $content = '';
 
     public function render()
     {
-        return view('livewire.create-post');
+        return view('livewire.create-post',[
+            'posts' => Post::all(),
+        ]);
     }
 
-    protected $rules = [
-        'content' => ['required'],
+    protected $validationAttributes = [
+        'content' => 'メモ'
     ];
 
     public function register()
     {
-        $data = $this->validate();
+        $validated = $this->validate([ 
+            'content' => 'required|min:3',
+        ]);
 
-        Post::create($data);
+        Post::create($validated);
 
-        $this->content = '';
+        return redirect()->to('/');
     }
 }

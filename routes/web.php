@@ -16,8 +16,8 @@ use App\Http\Livewire\Posts\Index;
 */
 
 Route::get('/', function () {
-    return view('welcome');
-});
+    return view('posting');
+})->middleware('auth')->name('/');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -33,4 +33,6 @@ require __DIR__.'/auth.php';
 
 Route::get('/CreatePost', function () {
     return view('posting');
-});
+})->middleware(['auth'])->name('posting');
+
+Route::name('createpost')->get('createpost', \App\Livewire\CreatePost::class);
