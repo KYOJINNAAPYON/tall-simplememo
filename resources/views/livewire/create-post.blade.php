@@ -20,7 +20,7 @@
     <div>
         <div>メモ一覧</div>
         @foreach($posts as $post)
-        <!-- <li wire:key="post-{{$post->id}}">{{ $post->content }}</li> -->
+        <div sortable wire:click="sortBy('id')">ID</div>
         <div>{{ $post->id }}</div>
         <div>{{ $post->content }}</div>
         <div>{{ $post->created_at }}</div>
