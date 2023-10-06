@@ -44,4 +44,9 @@ class CreatePost extends Component
 
         return redirect()->to('/');
     }
+
+    public function delete($id)
+    {
+        Post::whereId($id)->first()->delete();
+    }
 }

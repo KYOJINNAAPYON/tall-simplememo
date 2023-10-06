@@ -25,7 +25,8 @@
         <div>{{ $post->content }}</div>
         <div>{{ $post->created_at }}</div>
         <div>{{ $post->updated_at }}</div>
-
+        <div wire:click="edit{{ $post->id }}">編集</div>
+        <button wire:click="delete('{{$post->id}}')">削除</button>
         @endforeach
     </div>
     
