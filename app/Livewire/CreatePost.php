@@ -4,15 +4,39 @@ namespace App\Livewire;
 
 use Livewire\Component;
 use App\Models\Post;
-use Livewire\WithPagination;
+use App\Livewire\Forms\PostForm;
 
 class CreatePost extends Component
 {
-    use withPagination;
-
-    public $content = '';
+    public PostForm $form;
+    public $postId;
+    
     public $sortField = 'id';
     public $sortDirection = 'asc';
+
+    protected $listeners = [
+        'delete-post' => 'deletePost',
+    ];
+
+    public function mount()
+    {
+        $this->posts = Post::all();
+    }
+
+    public function render()
+    {
+        return view('livewire.create-post',[
+            'posts' => Post::orderBy($this->sortField, $this->sortDirection)->get(),
+        ]);
+    }
+
+    public function register()
+    {
+        $this->validate();
+        $this->form->store();
+
+        return $this->redirect('/');
+    }
 
     public function sortBy($field){
         if ($this->sortField === $field) {
@@ -23,30 +47,9 @@ class CreatePost extends Component
         $this->sortField = $field;
     }
 
-    public function render()
+    public function deletePost($postId)
     {
-        return view('livewire.create-post',[
-            'posts' => Post::orderBy($this->sortField, $this->sortDirection)->get(),
-        ]);
-    }
-    
-    protected $validationAttributes = [
-        'content' => 'メモ'
-    ];
-
-    public function register()
-    {
-        $validated = $this->validate([ 
-            'content' => 'required|min:3',
-        ]);
-
-        Post::create($validated);
-
-        return redirect()->to('/');
+        Post::whereId($postId)->first()->delete();
     }
 
-    public function delete($id)
-    {
-        Post::whereId($id)->first()->delete();
-    }
 }
