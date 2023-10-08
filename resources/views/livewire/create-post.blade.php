@@ -6,8 +6,8 @@
         <form wire:submit.prevent="register" class="">
         <div>
             <div>新規投稿</div>
-            <input wire:model="form.content" type="text"></input>
-            <div>@error('form.content')<span style="color:red">{{ $message }}</span>@enderror</div>
+            <input wire:model="content" type="text"></input>
+            <div>@error('content')<span style="color:red">{{ $message }}</span>@enderror</div>
             <div>@if (session()->has('message'))
                     <div class="alert alert-success">
                     {{ session('message') }}

@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use Livewire\WithPagination;
+use Livewire\Attributes\Rule;
 use Livewire\Component;
 use App\Models\Post;
 class CreatePost extends Component
@@ -13,7 +14,11 @@ class CreatePost extends Component
     public $word;
     public $search = '';
     public $sortField = 'id';
-    public $sortDirection = 'asc';
+    public $sortDirection = 'desc';
+    
+    #[Rule('required', message: '文字を入力してください。')]
+    #[Rule('min:3', message: 'メモが短すぎます。')] 
+    public $content = '';
 
     protected $listeners = [
         'delete-post' => 'deletePost',
@@ -38,7 +43,9 @@ class CreatePost extends Component
     public function register()
     {
         $this->validate();
-        $this->form->store();
+        Post::create([
+            'content' => $this->content,
+        ]);
 
         session()->flash('message', '投稿が完了しました。');
         
