@@ -2,7 +2,6 @@
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Livewire\Posts\Index;
 
 /*
 |--------------------------------------------------------------------------
@@ -34,5 +33,3 @@ require __DIR__.'/auth.php';
 Route::get('/CreatePost', function () {
     return view('posting');
 })->middleware(['auth'])->name('posting');
-
-Route::name('createpost')->get('createpost', \App\Livewire\CreatePost::class);

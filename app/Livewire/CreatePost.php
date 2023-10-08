@@ -2,15 +2,16 @@
 
 namespace App\Livewire;
 
+use Livewire\WithPagination;
 use Livewire\Component;
 use App\Models\Post;
-use App\Livewire\Forms\PostForm;
-
 class CreatePost extends Component
 {
-    public PostForm $form;
-    public $postId;
+    use WithPagination;
     
+    public $postId;
+    public $word;
+    public $search = '';
     public $sortField = 'id';
     public $sortDirection = 'asc';
 
@@ -18,16 +19,20 @@ class CreatePost extends Component
         'delete-post' => 'deletePost',
     ];
 
-    public function mount()
-    {
-        $this->posts = Post::all();
-    }
-
     public function render()
     {
-        return view('livewire.create-post',[
-            'posts' => Post::orderBy($this->sortField, $this->sortDirection)->get(),
-        ]);
+        if( $this->search!="" ){
+            return view('livewire.create-post',[
+                'posts' => Post::where('content', 'like', '%'.$this->search.'%')
+                ->orderBy($this->sortField, $this->sortDirection)
+                ->paginate(3),
+            ]);
+        }else{
+            return view('livewire.create-post',[
+                'posts' => Post::orderBy($this->sortField, $this->sortDirection)
+                ->paginate(3),
+            ]);
+        }
     }
 
     public function register()
@@ -35,6 +40,8 @@ class CreatePost extends Component
         $this->validate();
         $this->form->store();
 
+        session()->flash('message', '投稿が完了しました。');
+        
         return $this->redirect('/');
     }
 
@@ -50,6 +57,8 @@ class CreatePost extends Component
     public function deletePost($postId)
     {
         Post::whereId($postId)->first()->delete();
+
+        session()->flash('message', '投稿を削除しました。');
     }
 
 }
