@@ -30,12 +30,12 @@ class CreatePost extends Component
             return view('livewire.create-post',[
                 'posts' => Post::where('content', 'like', '%'.$this->search.'%')
                 ->orderBy($this->sortField, $this->sortDirection)
-                ->paginate(3),
+                ->paginate(5),
             ]);
         }else{
             return view('livewire.create-post',[
                 'posts' => Post::orderBy($this->sortField, $this->sortDirection)
-                ->paginate(3),
+                ->paginate(5),
             ]);
         }
     }
