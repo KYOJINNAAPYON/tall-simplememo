@@ -11,17 +11,20 @@ class CreatePost extends Component
     use WithPagination;
     
     public $postId;
-    public $word;
     public $search = '';
     public $sortField = 'id';
     public $sortDirection = 'desc';
+    public $post;
+    public bool $showPost = false;
     
-    #[Rule('required', message: '文字を入力してください。')]
     #[Rule('min:3', message: 'メモが短すぎます。')] 
+    #[Rule('required', message: '文字を入力してください。')]
     public $content = '';
 
     protected $listeners = [
+        'refresh' => '$refresh',
         'delete-post' => 'deletePost',
+        'update-post' => 'Post',
     ];
 
     public function render()
@@ -68,4 +71,24 @@ class CreatePost extends Component
         session()->flash('message', '投稿を削除しました。');
     }
 
+    public function editPost(Post $post)
+    {
+        $this->showPost = true;
+
+        $this->post = $post;
+        $this->content = $post->content;
+
+        // dd($post);
+    }
+
+    public function update()
+    {
+        $this->validate();
+        $this->post->update([
+            'content' => $this->content,
+        ]);
+
+        $this->showPost = false;
+        session()->flash('message', '投稿を修正しました。');
+    }
 }

@@ -9,7 +9,9 @@
   </head>
 <body>
   
-@livewire('CreatePost')
+<div>
+  @livewire('CreatePost')
+</div>
 
 @livewireScripts
 </body>

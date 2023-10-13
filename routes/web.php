@@ -29,7 +29,3 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__.'/auth.php';
-
-Route::get('/CreatePost', function () {
-    return view('posting');
-})->middleware(['auth'])->name('posting');
