@@ -17,7 +17,7 @@ class CreatePost extends Component
     public $post;
     public bool $showPost = false;
     
-    #[Rule('min:3', message: 'メモが短すぎます。')] 
+    #[Rule('min:3', message: '文字が短すぎます。')] 
     #[Rule('required', message: '文字を入力してください。')]
     public $content = '';
 
@@ -69,6 +69,7 @@ class CreatePost extends Component
         Post::whereId($postId)->first()->delete();
 
         session()->flash('message', '投稿を削除しました。');
+        return $this->redirect('/');
     }
 
     public function editPost(Post $post)
@@ -89,6 +90,9 @@ class CreatePost extends Component
         ]);
 
         $this->showPost = false;
+        $this->content = '';
+
         session()->flash('message', '投稿を修正しました。');
+        return $this->redirect('/');
     }
 }
