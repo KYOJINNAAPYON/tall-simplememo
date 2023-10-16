@@ -6,6 +6,7 @@ use Livewire\WithPagination;
 use Livewire\Attributes\Rule;
 use Livewire\Component;
 use App\Models\Post;
+use Illuminate\Support\Facades\Auth;
 class CreatePost extends Component
 {
     use WithPagination;
@@ -32,12 +33,14 @@ class CreatePost extends Component
         if( $this->search!="" ){
             return view('livewire.create-post',[
                 'posts' => Post::where('content', 'like', '%'.$this->search.'%')
+                ->where('user_id','=', Auth::user()->id)
                 ->orderBy($this->sortField, $this->sortDirection)
                 ->paginate(5),
             ]);
         }else{
             return view('livewire.create-post',[
-                'posts' => Post::orderBy($this->sortField, $this->sortDirection)
+                'posts' => Post::where('user_id','=', Auth::user()->id)
+                ->orderBy($this->sortField, $this->sortDirection)
                 ->paginate(5),
             ]);
         }
@@ -48,6 +51,7 @@ class CreatePost extends Component
         $this->validate();
         Post::create([
             'content' => $this->content,
+            'user_id' => Auth::id(),
         ]);
 
         session()->flash('message', '投稿が完了しました。');
