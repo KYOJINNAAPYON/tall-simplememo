@@ -2,6 +2,21 @@
     <!-- Session Status -->
     <x-auth-session-status class="mb-4" :status="session('status')" />
 
+    <div class="sm:mx-auto sm:w-full sm:max-w-md">
+        
+        <h2 class="mt-6 text-3xl font-extrabold text-center text-gray-900 leading-9">
+            Sign in to your account
+        </h2>
+        @if (Route::has('register'))
+            <p class="mt-2 text-sm text-center text-gray-600 leading-5 max-w">
+                Or
+                <a href="{{ route('register') }}" class="font-medium text-indigo-600 hover:text-indigo-500 focus:outline-none focus:underline transition ease-in-out duration-150">
+                    create a new account
+                </a>
+            </p>
+        @endif
+    </div>
+
     <form method="POST" action="{{ route('login') }}">
         @csrf
 
