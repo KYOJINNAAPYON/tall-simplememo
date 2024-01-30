@@ -11,11 +11,11 @@ class CreatePost extends Component
 {
     use WithPagination;
     
+    public Post $post;
     public $postId;
     public $search = '';
     public $sortField = 'id';
     public $sortDirection = 'desc';
-    public $post;
     public bool $showPost = false;
     
     #[Rule('min:3', message: '文字が短すぎます。')] 
@@ -35,13 +35,13 @@ class CreatePost extends Component
                 'posts' => Post::where('content', 'like', '%'.$this->search.'%')
                 ->where('user_id','=', Auth::user()->id)
                 ->orderBy($this->sortField, $this->sortDirection)
-                ->paginate(5),
+                ->paginate(5)
             ]);
         }else{
             return view('livewire.create-post',[
                 'posts' => Post::where('user_id','=', Auth::user()->id)
                 ->orderBy($this->sortField, $this->sortDirection)
-                ->paginate(5),
+                ->paginate(5)
             ]);
         }
     }
@@ -98,5 +98,11 @@ class CreatePost extends Component
 
         session()->flash('message', '投稿を修正しました。');
         return $this->redirect('/');
+    }
+
+    public function return()
+    {
+        $this->showPost = false;
+        $this->content = '';
     }
 }

@@ -24,9 +24,11 @@
 
     <table class="table-fixed mt-10">
         <div class="py-4">メモ一覧</div>
-            <form>
+            <div>
+                <form>
                 <input type="text" placeholder="キーワード検索" wire:model.live="search" id="search" class="rounded-lg">
-            </form>
+                </form>
+            </div>
         <div class="p-3">
             <div class="overflow-x-auto">
                 <table class="table-auto w-full">
@@ -42,20 +44,20 @@
                     </thead>
                     
                     @foreach($posts as $post)
-        
+                    
                     <tbody class="text-sm divide-y divide-gray-100">
                     <tr>
-                    <td class="p-2 whitespace-nowrap text-center">{{ $post->id }}</td>
-                    <td class="p-2 whitespace-nowrap text-center">{{ $post->content }}</td>
-                    <td class="p-2 whitespace-nowrap text-center">{{ $post->created_at }}</td>
-                    <td class="p-2 whitespace-nowrap text-center">{{ $post->updated_at }}</td>
-                    <td class="p-2 whitespace-nowrap text-center">
+                    <td class="p-2 whitespace-nowrap text-center" wire:key="postId: {{ $post->id }}">{{ $post->id }}</td>
+                    <td class="p-2 whitespace-nowrap text-center" wire:key="postId: {{ $post->id }}">{{ $post->content }}</td>
+                    <td class="p-2 whitespace-nowrap text-center" wire:key="postId: {{ $post->id }}">{{ $post->created_at }}</td>
+                    <td class="p-2 whitespace-nowrap text-center" wire:key="postId: {{ $post->id }}">{{ $post->updated_at }}</td>
+                    <td class="p-2 whitespace-nowrap text-center" wire:key="postId: {{ $post->id }}">
                         <button type="button" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded" 
-                        wire:click="editPost({ postId: {{ $post->id }}})">編集</button>
+                        wire:click="editPost({ postId: {{ $post->id }}})" wire:key="postId: {{ $post->id }}">編集</button>
                     </td>
-                    <td class="p-2 whitespace-nowrap">
+                    <td class="p-2 whitespace-nowrap" wire:key="postId: {{ $post->id }}">
                         <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" onclick="confirm('本当に削除してもよろしいですか？') && 
-                        Livewire.dispatch('delete-post',{ postId: {{$post->id}} })">削除</button>
+                        Livewire.dispatch('delete-post',{ postId: {{$post->id}} })" wire:key="postId: {{ $post->id }}">削除</button>
                     </td>
                     </tr>
                     @endforeach
@@ -80,9 +82,9 @@
                         </div>
                         @endif
                         </div>
-                        <div class="flex justify-between">
+                    <div class="flex justify-between">
                         <div>
-                        <button class="btn bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 border rounded" href="route('')">戻る</button>
+                        <button wire:click.prevent="return()" class="btn bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 border rounded">戻る</button>
                         </div>
                         <div>
                         <button wire:click.prevent="update()" class="btn bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border rounded">確定</button>
